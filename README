@@ -1,0 +1,58 @@
+GeoDBTestDataSourceFactory
+
+DESCRIPTION
+This class is a simple DataSourceFactory for usage in a Spring-enabled JUnit test.
+It sets up a GeoDB in-memory database and return the associated DataSource. The 
+DataSource can be used in any Spring database template to test the results of
+spatial queries.
+
+AUTHOR
+This code was mainly written by people at Spring[1]. Jan Boonen has adapted the code
+to work with gespostial data in GeoDB[2]. The code was developed a Geodan[3] a 
+leading Geo-ICT company in the Netherlands.
+[1] http://www.springframework.org
+[2] http://wiki.github.com/jdeolive/geodb/
+[3] http://www.geodan.com
+
+MAVEN SETUP
+I recommend to use Maven for dependency management. The following dependencies
+are needed:
+<repositories>
+	<repository>
+		<id>opengeo</id>
+		<url>http://repo.opengeo.org</url>
+	</repository>
+</repositories>
+<dependency>
+	<groupId>ch.qos.logback</groupId>
+	<artifactId>logback-classic</artifactId>
+	<version>0.9.18</version>
+	<scope>compile</scope>
+</dependency>
+<dependency>
+	<groupId>org.opengeo</groupId>
+	<artifactId>geodb</artifactId>
+	<version>0.4</version>
+</dependency>
+<dependency>
+	<groupId>junit</groupId>
+	<artifactId>junit</artifactId>
+	<version>4.8.1</version>
+	<scope>test</scope>
+</dependency>
+<dependency>
+	<groupId>org.springframework</groupId>
+	<artifactId>spring-jdbc</artifactId>
+	<version>3.0.1.RELEASE</version>
+	<scope>test</scope>
+</dependency>
+
+SPRING APPLICATION CONTEXT
+The following snippet shows how to use the GeoDBTestDataSourceFactory in your
+Spring driven JUnit tests:
+<!-- Creates an in-memory "geodata" database populated with test data for fast testing -->
+<bean id="dataSource" class="com.geodan.util.test.GeoDBTestDataSourceFactory">
+	<property name="testDatabaseName" value="geodata" />
+	<property name="schemaLocation" value="classpath:schema.sql" />
+	<property name="testDataLocation" value="classpath:data.sql" />
+</bean>
